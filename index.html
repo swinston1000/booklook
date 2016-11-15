@@ -16,28 +16,20 @@
         </h1>
     </div>
     <div id="display-book"></div>
+    <div id="loading-image"><img src="ajax-loader.gif" alt="loading"></div>
     <br>
     <br>
     <form id="book-form" role="form">
         <!--form action="#" method="POST" role="form"-->
-        <legend>Enter Book Info</legend>
+        <legend>Search by ISBN or Title</legend>
         <div class="form-group">
-            <input type="text" class="form-control" id="title-input" placeholder="Book Title" data-parsley-error-message="Please Insert a Book Title" required>
+            <input type="text" class="form-control conditional-fields" id="isbn" placeholder="Insert ISBN" data-parsley-type="integer" required>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" id="author-input" placeholder="Book Author" data-parsley-error-message="Please Insert the Book Author" required>
+            <input type="text" class="form-control conditional-fields" id="title" placeholder="Insert Title" required>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" id="description-input" placeholder="Book Description" data-parsley-error-message="Please Insert a Book Description" required>
-        </div>
-        <div class="form-group">
-            <input type="url" class="form-control" id="image-input" placeholder="Cover Image URL" required>
-        </div>
-        <div class="form-group">
-            <input type="text" data-parsley-type="integer" class="form-control" id="pages-input" placeholder="Number of Pages" required>
-        </div>
-        <div class="form-group">
-            <input type="text" data-parsley-type="integer" class="form-control" id="minutes-input" placeholder="Minutes You Read Per Day" required>
+            <input type="text" data-parsley-type="integer" class="form-control" id="minutes" placeholder="Minutes You Read Per Day" required>
         </div>
         <button id="book-search" type="button" class="btn btn-primary">Search</button>
     </form>
@@ -48,11 +40,17 @@
 <script type="text/javascript" src="node_modules/parsleyjs/dist/parsley.min.js"></script>
 <script type="text/javascript" src="index.js"></script>
 <script id="book-template" type="text/x-handlebars-template">
-    <p>This book will take you {{days pages minutes}} days to read</p>
     <h1>{{title}}</h1>
     <p>{{description}}</p>
+    <img style="max-height: 300px;" src="{{image}}" alt="No Book Cover Available">
     <h4>Written by: {{author}}</h4>
-    <img style="max-height: 300px;" src="{{image}}" alt="Book Cover">
+    <p>This book will take you {{days pages minutes}} days to read</p>
+</script>
+<script id="book-list-template" type="text/x-handlebars-template">
+    <div><a href="#" data-mins={{minutes}} data-id={{id}}>{{title}} by {{author}}</a> - will take {{days pages minutes}} days to read</div>
+</script>
+<script id="not-found-template" type="text/x-handlebars-template">
+    <h1>{{isbn}} not found, please try again!</h1>
 </script>
 
 </html>
