@@ -49,6 +49,12 @@ var fetch = function(isbn, mins) {
         method: "GET",
         url: 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbn,
         dataType: "json",
+        beforeSend: function() {
+            $('#loading-image').show();
+        },
+        complete: function() {
+            $('#loading-image').hide();
+        },
         success: function(data) {
             if (data.totalItems > 0) {
                 var newBook = {};
@@ -62,7 +68,6 @@ var fetch = function(isbn, mins) {
             } else {
                 app.displayBook(isbn);
             }
-
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.error(textStatus);

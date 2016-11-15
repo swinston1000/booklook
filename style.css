@@ -30,3 +30,7 @@ textarea.parsley-error {
 .parsley-errors-list.filled {
     opacity: 1;
 }
+
+#loading-image {
+    display: none;
+}
