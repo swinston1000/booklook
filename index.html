@@ -44,10 +44,10 @@
     <p>{{description}}</p>
     <img style="max-height: 300px;" src="{{image}}" alt="No Book Cover Available">
     <h4>Written by: {{author}}</h4>
-    <p>This book will take you {{days pages minutes}} days to read</p>
+    <p>This book {{days pages minutes}}</p>
 </script>
 <script id="book-list-template" type="text/x-handlebars-template">
-    <div><a href="#" data-mins={{minutes}} data-id={{id}}>{{title}} by {{author}}</a> - will take {{days pages minutes}} days to read</div>
+    <div><a href="#" data-mins={{minutes}} data-id={{id}}>{{title}} by {{author}}</a> {{days pages minutes}} </div>
 </script>
 <script id="not-found-template" type="text/x-handlebars-template">
     <h1>{{isbn}} not found, please try again!</h1>

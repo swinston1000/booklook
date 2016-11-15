@@ -154,5 +154,9 @@ $("#display-book").on('click', 'a', function(event) {
 //nice helper that calculates days
 Handlebars.registerHelper("days", function(pages, minutes) {
     var days = pages / minutes;
-    return days.toFixed(2);;
+    if (isNaN(days)) {
+        return ""
+    } else {
+        return "- will take " + days.toFixed(2) + " days to read!";
+    }
 });
