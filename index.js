@@ -1,15 +1,15 @@
 function BookLook() {
 
     //after every search we must
+    //enable all inputs
     //clear the fields
     //reset the validation
-    //enable all inputs
     function _cleanUpForm() {
-        $("#book-form").trigger('reset');
-        form.reset();
         $('.conditional-fields').each(function(index, field) {
             field.removeAttribute("disabled");
         })
+        $("#book-form").trigger('reset');
+        form.reset();
     }
 
     //based on the data that was fetched we need to render a suitable template
@@ -20,20 +20,23 @@ function BookLook() {
         // if, data is an object with one book we display it
         // else if, it is an object and has more than one book we display a list
         // else, data is a string so nothing was found so we need to display an error!
-        if (typeof data === "object" && data.length === 1) {
+        if (typeof data === "object" && (data.length === 1 || !data.length)) {
+
+            if (data.length === 1) { data = data[0] }
+
             var source = $('#book-template').html();
             var template = Handlebars.compile(source);
             //build our object for handlebars
             var book = {}
-            book.title = data[0].volumeInfo.title;
-            if (data[0].volumeInfo.authors) {
-                book.author = data[0].volumeInfo.authors[0];
+            book.title = data.volumeInfo.title;
+            if (data.volumeInfo.authors) {
+                book.author = data.volumeInfo.authors;
             }
-            book.description = data[0].volumeInfo.description;
-            if (data[0].volumeInfo.imageLinks) {
-                book.image = data[0].volumeInfo.imageLinks.thumbnail;
+            book.description = data.volumeInfo.description;
+            if (data.volumeInfo.imageLinks) {
+                book.image = data.volumeInfo.imageLinks.thumbnail;
             }
-            book.pages = data[0].volumeInfo.pageCount;
+            book.pages = data.volumeInfo.pageCount;
             book.minutes = mins;
             var newHTML = template(book);
 
@@ -80,6 +83,7 @@ function BookLook() {
                 field.setAttribute("disabled", true);
             } else if (field != $input[0] && $input.val() == "") {
                 field.removeAttribute("disabled");
+                form.reset();
             }
         })
     }
@@ -89,16 +93,17 @@ function BookLook() {
         //the query string depends on the users input
         var queryString;
         if (isbn) {
-            queryString = "isbn:" + isbn
+            queryString = "?q=isbn:" + isbn
         } else if (title) {
-            queryString = "intitle:" + title + "&maxResults=10"
+            queryString = "?q=intitle:" + title + "&maxResults=10"
         } else if (id) {
-            queryString = id
+            queryString = '/' + id
         }
 
         $.ajax({
             method: "GET",
-            url: 'https://www.googleapis.com/books/v1/volumes?q=' + queryString,
+
+            url: 'https://www.googleapis.com/books/v1/volumes' + queryString,
             dataType: "json",
             beforeSend: function() {
                 $('#loading-image').show();
@@ -109,9 +114,11 @@ function BookLook() {
             success: function(data) {
                 if (data.totalItems > 0) {
                     _render(data.items, mins);
-                } else {
-                    //the search failed so we send back the isbn so the user knows there were no results
+                } else if (data.totalItems === 0) {
                     _render(isbn);
+                } else {
+                    _render(data, mins)
+
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {

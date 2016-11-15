@@ -10,29 +10,31 @@
 </head>
 
 <body>
-    <div class="page-header">
-        <h1>BookLook
+    <div class="container">
+        <div class="page-header">
+            <h1>BookLook
             <span style="color: #000" class="fa fa-eye" aria-hidden="true"/>
         </h1>
+        </div>
+        <div id="display-book"></div>
+        <div id="loading-image"><img src="ajax-loader.gif" alt="loading"></div>
+        <br>
+        <br>
+        <form id="book-form" role="form">
+            <!--form action="#" method="POST" role="form"-->
+            <legend>Search by ISBN or Title</legend>
+            <div class="form-group">
+                <input type="text" class="form-control conditional-fields" id="isbn" placeholder="Insert ISBN" data-parsley-type="integer" required>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control conditional-fields" id="title" placeholder="Insert Title" required>
+            </div>
+            <div class="form-group">
+                <input type="text" data-parsley-type="integer" class="form-control" id="minutes" placeholder="Minutes You Read Per Day" required>
+            </div>
+            <button id="book-search" type="button" class="btn btn-primary">Search</button>
+        </form>
     </div>
-    <div id="display-book"></div>
-    <div id="loading-image"><img src="ajax-loader.gif" alt="loading"></div>
-    <br>
-    <br>
-    <form id="book-form" role="form">
-        <!--form action="#" method="POST" role="form"-->
-        <legend>Search by ISBN or Title</legend>
-        <div class="form-group">
-            <input type="text" class="form-control conditional-fields" id="isbn" placeholder="Insert ISBN" data-parsley-type="integer" required>
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control conditional-fields" id="title" placeholder="Insert Title" required>
-        </div>
-        <div class="form-group">
-            <input type="text" data-parsley-type="integer" class="form-control" id="minutes" placeholder="Minutes You Read Per Day" required>
-        </div>
-        <button id="book-search" type="button" class="btn btn-primary">Search</button>
-    </form>
 </body>
 <script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
